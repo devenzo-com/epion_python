@@ -38,7 +38,7 @@ class Epion(object):
         url = urljoin(BASEURL, "api", "current")
 
         headers = {
-            'Authorization': 'Bearer a/' + self.token
+            'Authorization': 'Bearer ' + self.token
         }
 
         r = requests.get(url, headers=headers)

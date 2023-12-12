@@ -1,1 +1,16 @@
 .idea
+dist
+eggs/
+.eggs/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+*.egg-info
+sdist/
+
+.mypy_cache/
+
+.vscode/
+__pycache__/
+build/

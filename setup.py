@@ -28,7 +28,7 @@ with open(path.join(here, 'epion', 'epion.py'), encoding='utf-8') as f:
             __version__ = l.split('"')[1] # take the part after the first "
 
 setup(
-    name='smappy',
+    name='epion',
     version=__version__,
     description='A python API wrapper for Epion Air senor data',
     long_description=long_description,
@@ -73,7 +73,11 @@ setup(
 
     # List run-time dependencies here.  These will be installed by pip when
     # your project is installed.
-    install_requires=['requests'],
+    install_requires=[
+        'requests',
+        'docopt',
+        'pytz'
+    ],
 
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
