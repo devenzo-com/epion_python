@@ -5,7 +5,7 @@ import pytz
 import numbers
 
 __title__ = "epion"
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __author__ = "Leendert Gravendeel"
 __license__ = "MIT"
 
@@ -38,10 +38,11 @@ class Epion(object):
         url = urljoin(BASEURL, "api", "current")
 
         headers = {
-            'Authorization': 'Bearer ' + self.token
+            'Authorization': 'Bearer ' + self.token,
+            'User-Agent': 'EpionPython/' + __version__
         }
 
-        r = requests.get(url, headers=headers)
+        r = requests.get(url, headers=headers, timeout=20)
         r.raise_for_status()
         return r.json()
 
