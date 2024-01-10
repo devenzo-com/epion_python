@@ -1,11 +1,10 @@
 import requests
-import datetime as dt
-from functools import wraps
-import pytz
-import numbers
+
+from .exceptions import EpionAuthenticationError, EpionConnectionError
+from requests.exceptions import ConnectTimeout, HTTPError
 
 __title__ = "epion"
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __author__ = "Leendert Gravendeel"
 __license__ = "MIT"
 
@@ -42,9 +41,19 @@ class Epion(object):
             'User-Agent': 'EpionPython/' + __version__
         }
 
-        r = requests.get(url, headers=headers, timeout=20)
-        r.raise_for_status()
-        return r.json()
+        try:
+            r = requests.get(url, headers=headers, timeout=20)
+            r.raise_for_status()
+            return r.json()
+        except HTTPError as ex:
+            if ex.response is not None:
+                if ex.response.status_code == 401:
+                    raise EpionAuthenticationError("Invalid API key") from ex
+            raise EpionConnectionError("Could not connect to Epion API") from ex
+        except ConnectTimeout as ex:
+            raise EpionConnectionError("Connection timeout while connecting to Epion API") from ex
+        except requests.ConnectionError as ex:
+            raise EpionConnectionError("Connection error while connecting to Epion API") from ex
 
 
 def urljoin(*parts):
